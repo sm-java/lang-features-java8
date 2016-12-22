@@ -64,7 +64,7 @@ public class Completion {
 		} catch (Exception e) {
 			Thread.currentThread().interrupt();
 		} finally {
-if (svc != null) {
+			if (svc != null) {
 				svc.shutdownNow();
 			}
 		}
