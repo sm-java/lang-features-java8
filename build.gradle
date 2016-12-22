@@ -12,8 +12,8 @@ apply plugin: 'java'
 //apply plugin: 'checkstyle'
 apply plugin: 'application'
 
-//mainClassName='com.bb.utils.queue.QueueMain'
-mainClassName='com.bb.web.BasicServer'
+mainClassName='com.sm.utils.queue.QueueMain'
+
 
 //Add configurations section
 configurations {
