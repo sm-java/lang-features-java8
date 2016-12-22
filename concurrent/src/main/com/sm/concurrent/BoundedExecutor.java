@@ -1,7 +1,4 @@
-/**
- * 
- */
-package com.bb.sm.concurrent;
+package com.sm.concurrent;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
