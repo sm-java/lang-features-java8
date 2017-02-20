@@ -1,6 +1,8 @@
 /**
  * Created by smdeveloper on 2/17/17.
- * https://dzone.com/articles/a-java-8-streams-cookbook
+ * Streams Java Collections
+ *
+ * Next - measure performance with JMH
  */
 
 package sm.utils.streams;
@@ -84,6 +86,40 @@ public class Winner {
         long distinctWinnersNum =  tdfWinners.stream().map(Winner::getName).distinct().count();
         System.out.println("Number of distinct winners - " + distinctWinnersNum);
 
+        //Map winner year names to list
+        List<String> WinnerYearToNamesList = tdfWinners.stream()
+                                                .map(w -> w.getYear() + " -- " + w.getName())
+                                                .collect(toList());
+        System.out.println("Winner and Year - " + WinnerYearToNamesList);
+
+        //Optional<Winner> winner2012 = tdfWinners.stream().filter(w -> w.getName().contains("Wiggins")).findAny();
+
+        //Matching the given input - Find all winners whose name is Froome
+        List<String> matchingWinners = tdfWinners.stream().filter(w -> w.getName().contains("Froome")).map(w -> w.getYear() + "--" + w.getName()).collect(toList());
+        System.out.println("Winners with name Froome- " + matchingWinners);
+
+        Optional<Winner> winnerYear2014 = tdfWinners.stream().filter(w -> w.getYear() == 2014).findFirst();
+        // winnerYear2014 - 2014
+        System.out.println("winnerYear2014 - " + winnerYear2014);
+
+        // groupingby - make a map whose keys are names
+        Map<String, List<Winner>> namesVsWinner = tdfWinners.stream().collect(groupingBy(Winner::getName));
+        // namesVsWinner - {Bradley Wiggins=[Bradley Wiggins], Carlos Sastre=[Carlos Sastre], Cadel Evans=[Cadel Evans], Óscar Pereiro=[Óscar Pereiro], Chris Froome=[Chris Froome, Chris Froome, Chris Froome], Andy Schleck=[Andy Schleck], Alberto Contador=[Alberto Contador, Alberto Contador], Vincenzo Nibali=[Vincenzo Nibali]}
+        System.out.println("namesVsWinner - " + namesVsWinner);
+
+        // join strings
+        String allTDFWinnersTeamsCSV = tdfWinners.stream().map(Winner::getTeam).collect(joining(", "));
+        // allTDFWinnersTeams Caisse d'Epargne–Illes Balears, Discovery Channel, Team CSC, Astana, Team Saxo Bank, BMC Racing Team, Team Sky, Team Sky, Astana, Team Sky, Team Sky
+        System.out.println("allTDFWinnersTeams " + allTDFWinnersTeamsCSV);
+
+        // grouping
+        Map<String, List<Winner>> winnersByNationality = tdfWinners.stream().collect(groupingBy(Winner::getNationality));
+        // winnersByNationality - {Great Britain=[Bradley Wiggins, Chris Froome, Chris Froome, Chris Froome], Luxembourg=[Andy Schleck], Italy=[Vincenzo Nibali], Australia=[Cadel Evans], Spain=[Óscar Pereiro, Alberto Contador, Carlos Sastre, Alberto Contador]}
+        System.out.println("winnersByNationality - " + winnersByNationality);
+
+        Map<String, Long> winsByNationalityCounting = tdfWinners.stream().collect(groupingBy(Winner::getNationality, counting()));
+        // winsByNationalityCounting - {Great Britain=4, Luxembourg=1, Italy=1, Australia=1, Spain=4}
+        System.out.println("winsByNationalityCounting - " + winsByNationalityCounting);
     }
 
     public double getAveSpeed() {
